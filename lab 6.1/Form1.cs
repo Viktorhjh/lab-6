@@ -73,14 +73,50 @@ namespace lab_6._1
                         case 0:
                             richTextBox1.Text += reader.ReadInt32();                            
                             break;
+
                         case 1:
                             richTextBox1.Text += reader.ReadDouble();
                             break;
+
                         case 2:
                             richTextBox1.Text += reader.ReadInt32();
                             richTextBox1.Text += "\n" + reader.ReadDouble();
                             richTextBox1.Text += "\n" + reader.ReadString();
-                            break;                            
+                            break;
+
+                        case 3:
+                            richTextBox1.Text += reader.ReadString();
+                            richTextBox1.Text += "\n" + reader.ReadString();
+                            richTextBox1.Text += "\n" + reader.ReadString();
+                            richTextBox1.Text += "\n" + reader.ReadDouble();
+                            richTextBox1.Text += "\n" + reader.ReadDouble();
+                            break;
+
+                        case 4:
+                            int countInt = reader.ReadInt32();
+                            int countDouble = reader.ReadInt32();
+                            for(int i = 0; i < countInt; i++)
+                            {
+                                richTextBox1.Text += reader.ReadInt32() + " ";
+                            }
+                            richTextBox1.Text += "\n";
+                            for (int i = 0; i < countDouble; i++)
+                            {
+                                richTextBox1.Text += reader.ReadDouble() + " ";
+                            }
+                            break;
+                        
+                        case 5:
+                            int countPerson = reader.ReadInt32();
+                            for(int i = 0; i < countPerson/5; i++)
+                            {
+                                richTextBox1.Text += reader.ReadString();
+                                richTextBox1.Text += "\n" + reader.ReadString();
+                                richTextBox1.Text += "\n" + reader.ReadString();
+                                richTextBox1.Text += "\n" + reader.ReadDouble();
+                                richTextBox1.Text += "\n" + reader.ReadDouble() + "\n";
+                            }
+                            break;
                     }                                        
                 }
             }
@@ -116,9 +152,45 @@ namespace lab_6._1
                     writer.Write(Convert.ToDouble(data[1]));
                     writer.Write(Convert.ToString(data[2]));
                     break;
+
+                case 3:
+                    writer.Write(Convert.ToString(data[0]));
+                    writer.Write(Convert.ToString(data[1]));
+                    writer.Write(Convert.ToString(data[2]));
+                    writer.Write(Convert.ToDouble(data[3]));
+                    writer.Write(Convert.ToDouble(data[4]));
+                    break;
+
+                case 4:
+                    string[] numbers = richTextBox1.Text.Split('\n');
+                    string[] intNumbers = numbers[0].Split(' ');                    
+                    string[] doubleNumbers = numbers[1].Split(' ');
+                    writer.Write(intNumbers.Length);
+                    writer.Write(doubleNumbers.Length);
+                    foreach (var current in intNumbers)
+                    {
+                        writer.Write(Convert.ToInt32(current));
+                    }
+                    foreach (var current in doubleNumbers)
+                    {
+                        writer.Write(Convert.ToDouble(current));
+                    }
+                    break;
+
+                case 5:
+                    string[] count = richTextBox1.Text.Split('\n');
+                    writer.Write(count.Length);
+                    for(int i = 0; i < count.Length-5; i += 5)
+                    {
+                        writer.Write(Convert.ToString(data[i]));
+                        writer.Write(Convert.ToString(data[i+1]));
+                        writer.Write(Convert.ToString(data[i+2]));
+                        writer.Write(Convert.ToDouble(data[i+3]));
+                        writer.Write(Convert.ToDouble(data[i+4]));
+                    }
+                    
+                    break;
             }
-
-
 
             writer.Close();
             fs.Close();
